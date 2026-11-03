@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kevin Buenaventura | Ingeniero de Sistemas</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="hero">
+  <nav>
+    <span class="logo">KB</span>
+    <ul>
+      <li><a href="#perfil">Perfil</a></li>
+      <li><a href="#experiencia">Experiencia</a></li>
+      <li><a href="#formacion">Formación</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+  <div class="hero-text">
+    <h1>Kevin Nicolas Buenaventura Ramirez</h1>
+    <p>Ingeniero de Sistemas · Mesa de Ayuda · Gestión de Servicios TI</p>
+    <a class="btn" href="#contacto">Contáctame</a>
+  </div>
+</header>
+
+<main>
+  <section id="perfil">
+    <h2>Perfil</h2>
+    <p>Ingeniero de Sistemas con experiencia en mesa de ayuda y soporte de nivel 2, gestión de incidentes de principio a fin y liderazgo de operación. Actualmente curso la Especialización en Desarrollo de Software en UNIMINUTO.</p>
+    <div class="chips">
+      <span>Aranda</span><span>GLPI</span><span>Zendesk</span><span>CRM</span><span>SQL / PostgreSQL</span><span>DBeaver</span><span>HTML · CSS · JavaScript</span>
+    </div>
+  </section>
+
+  <section id="experiencia">
+    <h2>Experiencia</h2>
+    <div class="cards">
+      <article><h3>Analista de Mesa de Atención Senior</h3><p class="meta">LinkTIC S.A.S · 2025 – 2026</p><p>Liderazgo de la operación de nivel 2 y gestión de incidentes y solicitudes.</p></article>
+      <article><h3>Travel Associate</h3><p class="meta">IGT Solutions · 2024 – 2025</p><p>Atención y soporte a clientes en procesos de viaje.</p></article>
+      <article><h3>Practicante</h3><p class="meta">CHAIA IPS · 2023</p><p>Soporte técnico y apoyo a sistemas de información.</p></article>
+    </div>
+  </section>
+
+  <section id="formacion">
+    <h2>Formación</h2>
+    <ul class="timeline">
+      <li><strong>Especialización en Desarrollo de Software</strong> · UNIMINUTO · en curso</li>
+      <li><strong>Ingeniería de Sistemas</strong> · UNIMINUTO · 2025</li>
+      <li><strong>Diplomado en Minería de Datos</strong> · UNIMINUTO · 2024</li>
+      <li><strong>Auditor Interno ISO/IEC 27001:2022</strong> · TÜV Rheinland Akademie · 2024</li>
+    </ul>
+  </section>
+
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <form id="form">
+      <input type="text" id="nombre" placeholder="Tu nombre" required>
+      <input type="email" id="correo" placeholder="Tu correo" required>
+      <textarea id="mensaje" placeholder="Mensaje" rows="4" required></textarea>
+      <button type="submit" class="btn">Enviar</button>
+      <p id="estado" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <p>© <span id="anio"></span> Kevin Buenaventura · Desplegado en Vercel</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
