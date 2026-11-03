@@ -3,70 +3,191 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kevin Buenaventura | Ingeniero de Sistemas</title>
+<title>Mesa de Ayuda TI | Gestión de tickets</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="hero">
+<header class="topbar">
+  <div class="brand"><span class="logo">MA</span> Mesa de Ayuda TI</div>
   <nav>
-    <span class="logo">KB</span>
-    <ul>
-      <li><a href="#perfil">Perfil</a></li>
-      <li><a href="#experiencia">Experiencia</a></li>
-      <li><a href="#formacion">Formación</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
+    <button class="tab active" data-view="tablero">Tablero</button>
+    <button class="tab" data-view="nuevo">Nuevo ticket</button>
+    <button class="tab" data-view="lineamientos">Lineamientos</button>
   </nav>
-  <div class="hero-text">
-    <h1>Kevin Nicolas Buenaventura Ramirez</h1>
-    <p>Ingeniero de Sistemas · Mesa de Ayuda · Gestión de Servicios TI</p>
-    <a class="btn" href="#contacto">Contáctame</a>
-  </div>
 </header>
 
 <main>
-  <section id="perfil">
-    <h2>Perfil</h2>
-    <p>Ingeniero de Sistemas con experiencia en mesa de ayuda y soporte de nivel 2, gestión de incidentes de principio a fin y liderazgo de operación. Actualmente curso la Especialización en Desarrollo de Software en UNIMINUTO.</p>
-    <div class="chips">
-      <span>Aranda</span><span>GLPI</span><span>Zendesk</span><span>CRM</span><span>SQL / PostgreSQL</span><span>DBeaver</span><span>HTML · CSS · JavaScript</span>
+  <!-- ============ TABLERO ============ -->
+  <section id="tablero" class="view active">
+    <div class="kpis">
+      <div class="kpi"><span id="k-abiertos">0</span><small>Abiertos</small></div>
+      <div class="kpi"><span id="k-progreso">0</span><small>En progreso</small></div>
+      <div class="kpi"><span id="k-vencidos">0</span><small>ANS vencido</small></div>
+      <div class="kpi"><span id="k-resueltos">0</span><small>Resueltos / cerrados</small></div>
+    </div>
+
+    <div class="filters">
+      <input id="f-texto" type="search" placeholder="Buscar por ID, asunto o usuario">
+      <select id="f-estado">
+        <option value="">Todos los estados</option>
+        <option>Abierto</option><option>En progreso</option><option>En espera</option>
+        <option>Resuelto</option><option>Cerrado</option>
+      </select>
+      <select id="f-prioridad">
+        <option value="">Todas las prioridades</option>
+        <option>P1</option><option>P2</option><option>P3</option><option>P4</option>
+      </select>
+      <select id="f-nivel">
+        <option value="">Todos los niveles</option>
+        <option>N1</option><option>N2</option><option>N3</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Tipo</th><th>Asunto</th><th>Solicitante</th><th>Prioridad</th><th>Nivel</th><th>Estado</th><th>ANS solución</th></tr>
+        </thead>
+        <tbody id="lista"></tbody>
+      </table>
+      <p id="vacio" class="empty" hidden>No hay tickets con esos filtros.</p>
     </div>
   </section>
 
-  <section id="experiencia">
-    <h2>Experiencia</h2>
-    <div class="cards">
-      <article><h3>Analista de Mesa de Atención Senior</h3><p class="meta">LinkTIC S.A.S · 2025 – 2026</p><p>Liderazgo de la operación de nivel 2 y gestión de incidentes y solicitudes.</p></article>
-      <article><h3>Travel Associate</h3><p class="meta">IGT Solutions · 2024 – 2025</p><p>Atención y soporte a clientes en procesos de viaje.</p></article>
-      <article><h3>Practicante</h3><p class="meta">CHAIA IPS · 2023</p><p>Soporte técnico y apoyo a sistemas de información.</p></article>
-    </div>
-  </section>
-
-  <section id="formacion">
-    <h2>Formación</h2>
-    <ul class="timeline">
-      <li><strong>Especialización en Desarrollo de Software</strong> · UNIMINUTO · en curso</li>
-      <li><strong>Ingeniería de Sistemas</strong> · UNIMINUTO · 2025</li>
-      <li><strong>Diplomado en Minería de Datos</strong> · UNIMINUTO · 2024</li>
-      <li><strong>Auditor Interno ISO/IEC 27001:2022</strong> · TÜV Rheinland Akademie · 2024</li>
-    </ul>
-  </section>
-
-  <section id="contacto">
-    <h2>Contacto</h2>
-    <form id="form">
-      <input type="text" id="nombre" placeholder="Tu nombre" required>
-      <input type="email" id="correo" placeholder="Tu correo" required>
-      <textarea id="mensaje" placeholder="Mensaje" rows="4" required></textarea>
-      <button type="submit" class="btn">Enviar</button>
-      <p id="estado" aria-live="polite"></p>
+  <!-- ============ NUEVO TICKET ============ -->
+  <section id="nuevo" class="view">
+    <h2>Registrar ticket</h2>
+    <form id="form-ticket" class="card form">
+      <label>Tipo
+        <select id="t-tipo" required>
+          <option value="Incidente">Incidente (algo dejó de funcionar)</option>
+          <option value="Solicitud">Solicitud de servicio (algo nuevo o un cambio menor)</option>
+        </select>
+      </label>
+      <label>Solicitante
+        <input id="t-usuario" required placeholder="Nombre del usuario">
+      </label>
+      <label>Correo
+        <input id="t-correo" type="email" required placeholder="usuario@empresa.com">
+      </label>
+      <label>Categoría
+        <select id="t-categoria" required>
+          <option>Hardware</option><option>Software</option><option>Red y conectividad</option>
+          <option>Accesos y contraseñas</option><option>Correo</option><option>Aplicación de negocio</option>
+        </select>
+      </label>
+      <label class="full">Asunto
+        <input id="t-asunto" required maxlength="90" placeholder="Resumen corto del caso">
+      </label>
+      <label class="full">Descripción
+        <textarea id="t-desc" rows="4" required placeholder="Qué pasa, desde cuándo, a cuántos usuarios afecta"></textarea>
+      </label>
+      <label>Impacto
+        <select id="t-impacto">
+          <option value="3">Alto: toda un área o un servicio crítico</option>
+          <option value="2" selected>Medio: varios usuarios</option>
+          <option value="1">Bajo: un usuario</option>
+        </select>
+      </label>
+      <label>Urgencia
+        <select id="t-urgencia">
+          <option value="3">Alta: la operación está detenida</option>
+          <option value="2" selected>Media: hay una alternativa temporal</option>
+          <option value="1">Baja: puede esperar</option>
+        </select>
+      </label>
+      <div class="full prio-preview">Prioridad calculada: <strong id="t-prio">P3</strong> · <span id="t-ans"></span></div>
+      <div class="full"><button class="btn" type="submit">Crear ticket</button></div>
+      <p id="t-ok" class="ok full" aria-live="polite"></p>
     </form>
+  </section>
+
+  <!-- ============ LINEAMIENTOS ============ -->
+  <section id="lineamientos" class="view">
+    <h2>Lineamientos para implementar la mesa de ayuda</h2>
+
+    <div class="card">
+      <h3>1. Ciclo de vida del ticket</h3>
+      <ol class="flow">
+        <li><b>Registro</b> El usuario o el agente N1 crea el ticket con los datos mínimos.</li>
+        <li><b>Clasificación</b> Se define si es incidente o solicitud y su categoría.</li>
+        <li><b>Priorización</b> La prioridad sale de la matriz impacto × urgencia.</li>
+        <li><b>Asignación</b> Se asigna al nivel de soporte que corresponde.</li>
+        <li><b>Diagnóstico y solución</b> Se registra cada acción en la bitácora.</li>
+        <li><b>Escalamiento</b> Si N1 no resuelve, pasa a N2 y luego a N3.</li>
+        <li><b>Resolución</b> Se documenta la causa y la solución aplicada.</li>
+        <li><b>Cierre</b> El usuario confirma y el ticket se cierra.</li>
+      </ol>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>2. Matriz de prioridad</h3>
+        <table class="mini">
+          <tr><th>Impacto \ Urgencia</th><th>Alta</th><th>Media</th><th>Baja</th></tr>
+          <tr><th>Alto</th><td class="p1">P1</td><td class="p2">P2</td><td class="p3">P3</td></tr>
+          <tr><th>Medio</th><td class="p2">P2</td><td class="p3">P3</td><td class="p4">P4</td></tr>
+          <tr><th>Bajo</th><td class="p3">P3</td><td class="p4">P4</td><td class="p4">P4</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>3. Acuerdos de nivel de servicio (ANS)</h3>
+        <table class="mini">
+          <tr><th>Prioridad</th><th>Primera respuesta</th><th>Solución</th></tr>
+          <tr><td class="p1">P1 Crítica</td><td>15 min</td><td>4 h</td></tr>
+          <tr><td class="p2">P2 Alta</td><td>30 min</td><td>8 h</td></tr>
+          <tr><td class="p3">P3 Media</td><td>2 h</td><td>24 h</td></tr>
+          <tr><td class="p4">P4 Baja</td><td>4 h</td><td>72 h</td></tr>
+        </table>
+        <p class="note">Tiempos de referencia; cada organización los ajusta en su catálogo de servicios.</p>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>4. Niveles de soporte</h3>
+        <ul>
+          <li><b>N1:</b> recibe, registra, clasifica y resuelve casos conocidos con la base de conocimiento.</li>
+          <li><b>N2:</b> analiza casos técnicos más complejos, configura y hace seguimiento a los escalamientos.</li>
+          <li><b>N3:</b> especialistas, desarrollo o proveedores; corrigen la causa de fondo.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>5. Requisitos para ponerla en marcha</h3>
+        <ul>
+          <li>Catálogo de servicios y categorías definido.</li>
+          <li>ANS acordados con las áreas usuarias.</li>
+          <li>Herramienta de tickets (como esta) con historial y estados.</li>
+          <li>Canales de atención: portal, correo y teléfono.</li>
+          <li>Base de conocimiento con soluciones frecuentes.</li>
+          <li>Indicadores: tickets por estado, cumplimiento de ANS y tiempo de solución.</li>
+        </ul>
+      </div>
+    </div>
   </section>
 </main>
 
-<footer>
-  <p>© <span id="anio"></span> Kevin Buenaventura · Desplegado en Vercel</p>
-</footer>
+<!-- ============ DETALLE ============ -->
+<dialog id="detalle">
+  <form method="dialog" class="close-row"><button class="x" aria-label="Cerrar">×</button></form>
+  <div id="d-body"></div>
+  <div class="d-actions">
+    <label>Estado
+      <select id="d-estado"><option>Abierto</option><option>En progreso</option><option>En espera</option><option>Resuelto</option><option>Cerrado</option></select>
+    </label>
+    <label>Nivel
+      <select id="d-nivel"><option>N1</option><option>N2</option><option>N3</option></select>
+    </label>
+    <label class="full">Nota para la bitácora
+      <input id="d-nota" placeholder="Acción realizada o comentario">
+    </label>
+    <button id="d-guardar" class="btn">Guardar cambios</button>
+  </div>
+  <h4>Bitácora</h4>
+  <ul id="d-log" class="log"></ul>
+</dialog>
+
+<footer>Mesa de Ayuda TI · Proyecto académico · Desarrollo de Aplicaciones Web · UNIMINUTO · Kevin Buenaventura</footer>
 <script src="script.js"></script>
 </body>
 </html>
